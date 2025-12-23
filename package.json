@@ -1,0 +1,25 @@
+{
+  "name": "vchat",
+  "version": "1.0.0",
+  "description": "vchat is a chat ui automation testing framework.",
+  "main": "index.js",
+  "scripts": {
+    "test": "esbuild test.js --bundle --platform=node --target=node18 --format=cjs --outfile=dist/main.js",
+    "build": "esbuild index.js --bundle --platform=node --target=node18 --format=cjs --outfile=dist/main.js",
+    "release": "npm run build && terser dist/main.js -o dist/main.js --compress --mangle"
+  },
+  "keywords": [
+    "vchat",
+    "hamibot",
+    "autojs",
+    "robot",
+    "wxrpa"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "esbuild": "^0.19.8",
+    "terser": "^5.26.0"
+  }
+}
