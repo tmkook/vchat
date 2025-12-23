@@ -77,7 +77,7 @@ export default {
     testLeaveGroup() {
         tester.assertTrue(vchat.leaveGroup(), 'vchat.leaveGroup')
     },
-   
+
     testBackToHome() {
         tester.assertTrue(vchat.backToHome(), 'vchat.backToHome')
     },
@@ -99,7 +99,7 @@ export default {
     },
 
     openUserSession() {
-        tester.assertTrue(vchat.openUserSession('测试群功能'), 'vchat.openUserSession')
+        tester.assertTrue(vchat.openUserSession('文件传输助手'), 'vchat.openUserSession')
     },
 
     testFinish() {

@@ -60,7 +60,7 @@ export default {
      */
     getTabs() {
         const tabs = className("TextView").depth(15).find()
-        return tabs.empty() ? null : tabs
+        return tabs.length === 4 ? tabs : null
     },
 
     /**
@@ -139,9 +139,8 @@ export default {
             const rect = user.bounds()
             click(rect.centerX(), rect.centerY())
             return true
-        }else{
-            back()
         }
+        back()
         return false
     },
 
@@ -156,14 +155,17 @@ export default {
         sleep(random(500, 1000))
         const isEnable = descContains("消息免打扰").depth(12).findOnce() != null
         if (isEnable == enable) {
+            back()
             return true
         }
         const pos = text("查找聊天记录").depth(20).findOnce()
         if (pos) {
             const rect = pos.bounds()
             click(rect.centerX(), rect.centerY() + random(150, 180))
+            back()
             return true
         }
+        back()
         return false
     },
 
@@ -181,6 +183,7 @@ export default {
             text("退出").depth(10).click()
             return true
         }
+        back()
         return false
     },
 
@@ -197,13 +200,12 @@ export default {
             longClick(rect.centerX() + rand, rect.bottom + rand)
             sleep(random(500, 1000))
             let top = text("置顶该聊天").depth(3).findOnce()
-            if(top){
+            if (top) {
                 top.click()
                 return true
-            }else{
-                back()
             }
         }
+        back()
         return false
     },
 
@@ -234,6 +236,7 @@ export default {
                 }
             }
         }
+        back()
         return false
     },
 
