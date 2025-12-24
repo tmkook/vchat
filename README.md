@@ -16,7 +16,7 @@
 # 开始使用
 
 ```
-npx giget@latest gh:tmkook/vchat-starter-kit
+npx giget@latest gh:tmkook/vchat-starter-kit vchat
 ```
 
 # 开发演示
@@ -24,12 +24,11 @@ npx giget@latest gh:tmkook/vchat-starter-kit
 
 ```
 import { vchat } from 'vchat'
-vchat.onMessage((notifaction) => {
-    vchat.openApp() //打开APP
-    vchat.openTopSession() //打开第一个会话
-    vchat.sendText("Hello world") //发送文字消息
-    vchat.finish() //结束任务
-    notifaction.delete() //删除通知
+vchat.onMessage((notice) => {
+    vchat.openApp()
+    vchat.openTopSession()
+    vchat.sendText("Hello world")
+    vchat.finish()
 })
 ```
 

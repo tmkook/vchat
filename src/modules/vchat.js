@@ -28,6 +28,22 @@ export default {
     },
 
     /**
+     * 返回到主界面最多 20 步
+     * 
+     * @returns boolean
+     */
+    backToHome() {
+        for (let i = 0; i < 20; i++) {
+            sleep(random(500, 1000))
+            if (this.isHome()) {
+                return true
+            }
+            back()
+        }
+        return false
+    },
+
+    /**
      * 任务完成进入息屏等待状态
      * 
      * @returns boolean
@@ -50,7 +66,7 @@ export default {
         launch(this.package)
         waitForPackage(this.package)
         device.keepScreenDim(600000)
-        return true
+        return this.backToHome()
     },
 
     /**
@@ -431,22 +447,6 @@ export default {
                     }
                 }
             }
-        }
-        return false
-    },
-
-    /**
-     * 返回到主界面最多 20 步
-     * 
-     * @returns boolean
-     */
-    backToHome() {
-        for (let i = 0; i < 20; i++) {
-            sleep(random(100, 500))
-            if (this.isHome()) {
-                return true
-            }
-            back()
         }
         return false
     }
