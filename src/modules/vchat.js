@@ -257,7 +257,6 @@ export default {
         const y = 10 * rand
         click(x, y)
         click(x, y)
-        sleep(500)
         return true
     },
 
@@ -272,7 +271,6 @@ export default {
             const rect = tabs[0].bounds()
             click(rect.centerX(), rect.centerY())
             click(rect.centerX(), rect.centerY())
-            sleep(500)
             return true
         }
         return false
@@ -312,7 +310,7 @@ export default {
      * @returns boolean
      */
     isChat() {
-        return desc("表情").findOnce() !== null
+        return desc("表情").depth(20).findOnce() !== null
     },
 
     /**
@@ -321,8 +319,11 @@ export default {
      * @returns boolean
      */
     isGroupChat() {
-        this.openChatTools()
-        return text("群工具").depth(25).findOnce() !== null
+        if (this.openChatTools()) {
+            sleep(random(500, 1000))
+            return text("群工具").depth(25).findOnce() !== null
+        }
+        return false
     },
 
     /**
@@ -331,7 +332,7 @@ export default {
      * @returns boolean
      */
     switchToTextInput() {
-        const keyboard = desc("切换到键盘").findOnce()
+        const keyboard = desc("切换到键盘").depth(21).findOnce()
         if (keyboard) {
             keyboard.click()
             return true
@@ -345,7 +346,7 @@ export default {
      * @returns boolean
      */
     switchToVoiceInput() {
-        const voice = desc("切换到按住说话").findOnce()
+        const voice = desc("切换到按住说话").depth(21).findOnce()
         if (voice) {
             voice.click()
             return true
@@ -359,12 +360,13 @@ export default {
      * @returns boolean
      */
     sendText(text) {
-        if (this.isChat()) {
-            this.switchToTextInput()
-            sleep(random(100, 500))
-            setText(text)
-            sleep(random(100, 500))
-            click('发送')
+        this.switchToTextInput()
+        sleep(random(500, 1000))
+        setText(text)
+        sleep(random(500, 1000))
+        let btn = text("发送").depth(21).findOnce()
+        if (btn) {
+            btn.click()
             return true
         }
         return false
@@ -401,7 +403,7 @@ export default {
      * @returns boolean
      */
     sendPhoto(index, source) {
-        if (this.openChatTools()) {
+        if (this.isChat() && this.openChatTools()) {
             sleep(random(500, 1000))
             let album = text("相册").depth(25).findOnce()
             if (album) {
