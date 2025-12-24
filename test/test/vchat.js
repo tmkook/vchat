@@ -71,7 +71,9 @@ export default {
     },
 
     testDoNotDisturb() {
-        tester.assertTrue(vchat.doNotDisturb(true), 'vchat.doNotDisturb')
+        tester.assertTrue(vchat.doNotDisturb(true), 'vchat.doNotDisturb-true')
+        sleep(1000)
+        tester.assertTrue(vchat.doNotDisturb(false), 'vchat.doNotDisturb-false')
     },
 
     testLeaveGroup() {
@@ -90,12 +92,14 @@ export default {
         tester.assertTrue(vchat.scrollToNextUnreadSession(), 'vchat.scrollToNextUnreadSession')
     },
 
-    testDelSession() {
-        tester.assertTrue(vchat.delSession(), 'vchat.delSession')
+    testTopSession() {
+        tester.assertTrue(vchat.topSession(true), 'vchat.topSession-true')
+        sleep(1000)
+        tester.assertTrue(vchat.topSession(false), 'vchat.topSession-false')
     },
 
-    testTopSession() {
-        tester.assertTrue(vchat.topSession(), 'vchat.topSession')
+    testDelSession() {
+        tester.assertTrue(vchat.delSession(), 'vchat.delSession')
     },
 
     openUserSession() {

@@ -198,8 +198,8 @@ export default {
             const rect = header.parent().parent().bounds()
             longClick(rect.centerX() + rand, rect.bottom + rand)
             sleep(random(500, 1000))
-            let text = enable ? '置顶该聊天' : '取消置顶'
-            let top = text(text).depth(3).findOnce()
+            let menu = enable ? '置顶该聊天' : '取消置顶'
+            let top = text(menu).depth(3).findOnce()
             if (top) {
                 top.click()
                 return true
@@ -247,18 +247,16 @@ export default {
      * @returns boolean
      */
     leaveGroup() {
-        if (this.isGroupChat()) {
-            desc("聊天信息").depth(18).click()
+        desc("聊天信息").depth(18).click()
+        sleep(random(500, 1000))
+        const leave = text("退出群聊").depth(16).findOnce()
+        if (leave) {
+            leave.click()
             sleep(random(500, 1000))
-            const leave = text("退出群聊").depth(16).findOnce()
-            if (leave) {
-                leave.click()
-                sleep(random(500, 1000))
-                text("退出").depth(10).click()
-                return true
-            }
-            back()
+            text("退出").depth(10).click()
+            return true
         }
+        back()
         return false
     },
 
