@@ -1,2 +1,4 @@
 import vchat from "./src/modules/vchat"
-export { vchat }
+import runtest from './src/utils/runtest'
+import unitest from './src/utils/unitest'
+export { vchat, runtest, unitest }
