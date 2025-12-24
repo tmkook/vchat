@@ -375,10 +375,10 @@ export default {
      * 
      * @returns boolean
      */
-    sendText(text) {
+    sendText(content) {
         this.switchToTextInput()
         sleep(random(500, 1000))
-        setText(text)
+        setText(content)
         sleep(random(500, 1000))
         let btn = text("发送").depth(21).findOnce()
         if (btn) {
