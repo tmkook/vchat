@@ -8,6 +8,7 @@
 - 软件版本：开发于 WX 8.0.38 版本
 
 # 最优设置
+- 设置电池选项，`关闭自动管理`，`允许自启动`，`允许关联启动`，`允许后台活动` 防止应用被杀后台
 - 在设置中将手机自带的`安全相关`功能关闭（部分手机会检测弹窗和危险提示将APP进行管控）
 - 在设置中将所有系统服务的`修改系统设置`权限全部关闭（部分手机会自动关闭无障碍权限）
 - 关闭手机的`锁屏密码`（实现息屏状态下收到消息自动点亮屏幕打开APP操作）
@@ -22,9 +23,7 @@ npx giget@latest gh:tmkook/vchat-starter-kit
 在 `main.js` 中编写自动化逻辑，执行 `npm run build` 后获得最终执行代码 `dist/main.js` 文件
 
 ```
-import { vchat } from 'tmkook/vchat'
-
-//收到新消息
+import { vchat } from 'vchat'
 vchat.onMessage((notifaction) => {
     vchat.openApp() //打开APP
     vchat.openTopSession() //打开第一个会话
