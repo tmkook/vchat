@@ -1,5 +1,5 @@
-import tester from '../utils/unitest'
-import vchat from '../modules/vchat'
+import tester from '../../src/utils/unitest'
+import vchat from '../../src/modules/vchat'
 
 export default {
     testOpenApp() {

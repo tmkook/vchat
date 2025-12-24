@@ -170,36 +170,20 @@ export default {
     },
 
     /**
-     * 退出群聊
-     * 
-     * @returns boolean
-     */
-    leaveGroup() {
-        desc("聊天信息").depth(18).click()
-        sleep(random(500, 1000))
-        const leave = text("退出群聊").depth(16).findOnce()
-        if (leave) {
-            sleep(random(500, 1000))
-            text("退出").depth(10).click()
-            return true
-        }
-        back()
-        return false
-    },
-
-    /**
      * 置顶会话
      * 
+     * @param {boolean} enable
      * @returns boolean
      */
-    topSession() {
+    topSession(enable) {
         const header = text(decodeURIComponent("%E5%BE%AE%E4%BF%A1")).depth(14).findOnce()
         if (header) {
             const rand = random(10, 20)
             const rect = header.parent().parent().bounds()
             longClick(rect.centerX() + rand, rect.bottom + rand)
             sleep(random(500, 1000))
-            let top = text("置顶该聊天").depth(3).findOnce()
+            let text = enable ? '置顶该聊天' : '取消置顶'
+            let top = text(text).depth(3).findOnce()
             if (top) {
                 top.click()
                 return true
@@ -223,6 +207,7 @@ export default {
             sleep(random(500, 1000))
             let del = text("删除该聊天").depth(3).findOnce()
             if (del) {
+                del.click()
                 sleep(random(500, 1000))
                 let ok = text("知道了").findOnce()
                 if (ok) {
@@ -237,6 +222,27 @@ export default {
             }
         }
         back()
+        return false
+    },
+
+    /**
+     * 退出群聊
+     * 
+     * @returns boolean
+     */
+    leaveGroup() {
+        if (this.isGroupChat()) {
+            desc("聊天信息").depth(18).click()
+            sleep(random(500, 1000))
+            const leave = text("退出群聊").depth(16).findOnce()
+            if (leave) {
+                leave.click()
+                sleep(random(500, 1000))
+                text("退出").depth(10).click()
+                return true
+            }
+            back()
+        }
         return false
     },
 
@@ -284,9 +290,11 @@ export default {
             if (more) {
                 more.click()
                 return true
+            } else {
+                return false
             }
         }
-        return false
+        return true
     },
 
     /**
@@ -394,6 +402,7 @@ export default {
      */
     sendPhoto(index, source) {
         if (this.openChatTools()) {
+            sleep(random(500, 1000))
             let album = text("相册").depth(25).findOnce()
             if (album) {
                 let rect = album.bounds()
