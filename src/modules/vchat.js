@@ -114,7 +114,7 @@ export default {
      * @returns boolean
      */
     openTopSession() {
-        const header = text(decodeURIComponent("%E5%BE%AE%E4%BF%A1")).depth(14).findOnce()
+        const header = classNameContains("FrameLayout").depth(19).findOnce()
         if (header) {
             const rand = random(10, 20)
             const rect = header.parent().parent().bounds()
@@ -176,7 +176,7 @@ export default {
      * @returns boolean
      */
     topSession(enable) {
-        const header = text(decodeURIComponent("%E5%BE%AE%E4%BF%A1")).depth(14).findOnce()
+        const header = classNameContains("FrameLayout").depth(19).findOnce()
         if (header) {
             const rand = random(10, 20)
             const rect = header.parent().parent().bounds()
@@ -199,7 +199,7 @@ export default {
      * @returns boolean
      */
     delSession() {
-        const header = text(decodeURIComponent("%E5%BE%AE%E4%BF%A1")).depth(14).findOnce()
+        const header = classNameContains("FrameLayout").depth(19).findOnce()
         if (header) {
             const rand = random(10, 20)
             const rect = header.parent().parent().bounds()
