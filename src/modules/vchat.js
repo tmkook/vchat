@@ -120,7 +120,7 @@ export default {
      * @returns number
      */
     hasUnreadSession() {
-        const dot = className("ImageView").drawingOrder(1).depth(20).find()
+        const dot = className("ImageView").drawingOrder(2).depth(20).find()
         return dot.length
     },
 
