@@ -40,43 +40,46 @@ vchat.onMessage((notice) => {
 })
 ```
 
-# 已完成API
 
-- `onMessage(callback)` 监听新消息通知，回调接收 `notification` 对象
-- `finish()` 结束任务并回到主屏，取消常亮，返回是否成功
-- `openApp()` 启动并保持屏幕常亮 10 分钟
-- `getTabs()` 获取底部 Tab 集合，未找到返回 `null`
-- `getCurrentTab()` 获取当前选中 Tab 下标（0-3），非主页返回 `-1`
-- `setCurrentTab(index)` 切换到底部指定 Tab，成功返回 `true`
-- `hasUnreadSession()` 返回未读会话角标数量
-- `openTopSession()` 打开会话列表顶部第一个会话
-- `openUserSession(nickname)` 搜索并打开指定昵称会话，找不到则返回 `false`
-- `doNotDisturb(enable)` 在会话信息里开/关 “消息免打扰”
-- `topSession(enable)` 长按列表第一项并置顶该聊天或取消置顶
-- `delSession()` 长按列表第一项并删除该聊天
-- `leaveGroup()` 在群聊信息页退出群聊
-- `scrollToFirstSession()` 将会话列表滚动到顶部
-- `scrollToNextUnreadSession()` 通过点击底部 Tab 将下一个未读会话置顶
-- `openChatTools()` 展开聊天窗口的 “更多功能” 面板
-- `switchToTextInput()` 切换为文字输入模式
-- `switchToVoiceInput()` 切换为语音输入模式
-- `sendText(text)` 在聊天界面发送文本消息
-- `sendCustomEmoji(name)` 发送自定义表情（按名称匹配）
-- `sendPhoto([index], source)` 通过相册发送图片，如索引 [0,1] 为相册第一张和第二张，`source` 为是否原图
-- `backToHome()` 最多退回 20 步直至主页
-- `isHome()` 是否在主页
-- `isChat()` 是否在聊天界面
-- `isGroupChat()` 当前会话是否为群聊
-- `isOfficialAccount()` 当前会话是否是公众号
-- `isServiceAccount()` 当前会话是否是服务号
-- `isWorkAccount()` 当前会话是否是企微号
-- `isServiceNotice()` 当前会话是否是服务通知
-- `getMessages()` 获取聊天消息，返回数组 [MessageObject]
-- `MessageObject.getText()` 获取聊天详情文字返回数组 [string]
-- `MessageObject.isPhoto()` 消息是否是照片
-- `MessageObject.isFriend()` 发送方(true=好友，false=自己或系统)
-- `MessageObject.isRedPacket()` 消息是否是红包
-- `MessageObject.getRedPacket()` 领取红包
+# API
+
+| 方法 | 参数 | 返回 | 说明 |
+| --- | --- | --- | --- |
+| onMessage(callback) | Function(Notification) | — | 监听新消息通知 |
+| finish() | — | boolean | 结束任务并回到主屏幕 |
+| openApp() | — | boolean | 打开APP |
+| getTabs() | — | Array(number) | 获取底部 Tab 集合，未找到返回 `null` |
+| getCurrentTab() | — | number | 获取当前 Tab 下标（0-3）失败返回 -1 |
+| setCurrentTab(index) | number | boolean | 切换到指定 Tab |
+| hasUnreadSession() | — | number | 返回未读会话角标数量 |
+| openTopSession() | — | boolean | 打开列表顶部第一个会话 |
+| openUserSession(nickname) | string | boolean | 搜索并打开指定昵称会话 |
+| doNotDisturb(enable) | boolean | boolean | 在会话信息里开/关消息免打扰 |
+| topSession(enable) | boolean | boolean | 取消或置顶该聊天 |
+| delSession() | — | boolean | 长按列表第一个会话并删除 |
+| leaveGroup() | — | boolean | 在群聊中退出群 |
+| scrollToFirstSession() | — | boolean | 将会话列表滚动到顶部(双击顶部) |
+| scrollToNextUnreadSession() | — | boolean | 未读会话置顶(双击第一个Tab) |
+| openChatTools() | — | boolean | 展开聊天窗口的更多功能 |
+| switchToTextInput() | — | boolean | 切换为文字输入模式 |
+| switchToVoiceInput() | — | boolean | 切换为语音输入模式 |
+| sendText(text) | string | boolean | 在聊天界面发送文本消息 |
+| sendCustomEmoji(name) | string | boolean | 发送自定义表情（按名称匹配） |
+| sendPhoto(index source) | Array(number), boolean | boolean | 通过相册发送图片，索引如 [0,1] 表示第一、第二张；source 为是否原图 |
+| backToHome() | — | boolean | 最多退回 20 步直至主页 |
+| isHome() | — | boolean | 是否在主页 |
+| isChat() | — | boolean | 是否在聊天界面 |
+| isGroupChat() | — | boolean | 当前会话是否为群聊 |
+| isOfficialAccount() | — | boolean | 当前会话是否是公众号 |
+| isServiceAccount() | — | boolean | 当前会话是否是服务号 |
+| isWorkAccount() | — | boolean | 当前会话是否是企微号 |
+| isServiceNotice() | — | boolean | 当前会话是否是服务通知 |
+| getMessages() | — | Array(message) | 获取聊天消息 |
+| message.getText() | — | Array(string) | 获取聊天详情 |
+| message.isPhoto() | — | boolean | 消息是否是照片 |
+| message.isFriend() | — | boolean | 发送方(true=好友，false=自己或系统) |
+| message.isRedPacket() | — | boolean | 消息是否是红包 |
+| message.getRedPacket() | — | boolean | 领取红包 |
 
 
 # 如何贡献
