@@ -508,13 +508,23 @@ const MessageObject = function (UIObject) {
     this.UIObject = UIObject
 
     /**
-     * 是否是红包
+     * 获取聊天文字
      * 
-     * @returns boolean
+     * @returns [string]
      */
-    this.isRedPacket = function () {
-        let redpacket = this.UIObject.find(text("微信红包").depth(25))
-        return redpacket.nonEmpty()
+    this.getText = function () {
+        let msgs = []
+        let views = this.UIObject.find(className("TextView"))
+        if (views.nonEmpty()) {
+            views.forEach(item => {
+                msgs.push(item.text())
+            })
+        } else {
+            if (this.isPhoto()) {
+                msgs.push("图片")
+            }
+        }
+        return msgs
     }
 
     /**
@@ -538,23 +548,13 @@ const MessageObject = function (UIObject) {
     }
 
     /**
-     * 获取聊天文字
+     * 是否是红包
      * 
-     * @returns [string]
+     * @returns boolean
      */
-    this.getText = function () {
-        let msgs = []
-        let views = this.UIObject.find(className("TextView"))
-        if (views.nonEmpty()) {
-            views.forEach(item => {
-                msgs.push(item.text())
-            })
-        } else {
-            if (this.isPhoto()) {
-                msgs.push("图片")
-            }
-        }
-        return msgs
+    this.isRedPacket = function () {
+        let redpacket = this.UIObject.find(text("微信红包").depth(25))
+        return redpacket.nonEmpty()
     }
 
     /**
@@ -562,7 +562,7 @@ const MessageObject = function (UIObject) {
      * 
      * @returns string
      */
-    this.receiveRedPacket = function () {
+    this.getRedPacket = function () {
         let redpacket = this.UIObject.findOne(text("微信红包").depth(25))
         if (redpacket) {
             let isReceived = this.UIObject.findOne(text("已领取").depth(26))

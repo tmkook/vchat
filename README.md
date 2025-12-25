@@ -72,11 +72,12 @@ vchat.onMessage((notice) => {
 - `isWorkAccount()` 当前会话是否是企微号
 - `isServiceNotice()` 当前会话是否是服务通知
 - `getMessages()` 获取聊天消息，返回数组 [MessageObject]
-- `MessageObject.isRedPacket()` 消息是否是红包
-- `MessageObject.receiveRedPacket()` 领取红包
-- `MessageObject.isPhoto()` 消息是否是照片
-- `MessageObject.isFriend()` 是否是好友发送(true=对方，false=自己或系统)
 - `MessageObject.getText()` 获取聊天详情文字返回数组 [string]
+- `MessageObject.isPhoto()` 消息是否是照片
+- `MessageObject.isFriend()` 发送方(true=好友，false=自己或系统)
+- `MessageObject.isRedPacket()` 消息是否是红包
+- `MessageObject.getRedPacket()` 领取红包
+
 
 # 如何贡献
 欢迎贡献代码，提交的代码必须在 `test` 中编写单元测试。编写完后执行 `npm run test` 获得最终执行 `dist/main.js` 文件。默认测试所有方法，你可以在文件末尾修改你需要测试的方法 `runTestMethod(obj,method)` 后执行单个功能的测试。

@@ -126,11 +126,11 @@ export default {
         let messages = vchat.getMessages()
         for (let i in messages) {
             let item = messages[i]
-            tester.assertBoolean(item.isRedPacket(), "message.isRedPacket")
-            tester.assertBoolean(item.receiveRedPacket(), "message.receiveRedPacket")
+            tester.assertArray(item.getText(), "message.getText")
             tester.assertBoolean(item.isPhoto(), "message.isPhoto")
             tester.assertBoolean(item.isFriend(), "message.isFriend")
-            tester.assertArray(item.getText(), "message.getText")
+            tester.assertBoolean(item.isRedPacket(), "message.isRedPacket")
+            tester.assertBoolean(item.getRedPacket(), "message.getRedPacket")
         }
     },
 
