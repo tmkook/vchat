@@ -1,3 +1,5 @@
+import { assert } from "node:console"
+
 export default {
     assertEquals(actual, expected, message) {
         const passed = actual === expected
@@ -53,6 +55,16 @@ export default {
         const passed = typeof value === 'boolean'
         if (passed) {
             log(`✓ ${message}: 通过 (值为布尔值)`)
+        } else {
+            log(`✗ ${message}: 失败 (值为 ${value})`)
+        }
+        return passed
+    },
+
+    assertArray(value, message) {
+        const passed = Array.isArray(value)
+        if (passed) {
+            log(`✓ ${message}: 通过 (值为数组)`)
         } else {
             log(`✗ ${message}: 失败 (值为 ${value})`)
         }

@@ -86,7 +86,7 @@ export default {
      * 
      * @returns number
      */
-    currentTab() {
+    getCurrentTab() {
         const tabs = this.getTabs()
         if (tabs) {
             for (let i in tabs) {
@@ -103,7 +103,7 @@ export default {
      * 
      * @returns boolean
      */
-    switchTab(index) {
+    setCurrentTab(index) {
         const tabs = this.getTabs()
         if (tabs && tabs[index]) {
             const rect = tabs[index].bounds()
@@ -261,7 +261,7 @@ export default {
     },
 
     /**
-     * 将会话列表滚动到顶部
+     * 将会话列表滚动到顶部(双击顶部)
      * 
      * @returns boolean
      */
@@ -275,7 +275,7 @@ export default {
     },
 
     /**
-     * 将下一个未读会话滚动到顶部
+     * 将下一个未读会话滚动到顶部(双击第一个Tab)
      * 
      * @returns boolean
      */
@@ -307,37 +307,6 @@ export default {
             }
         }
         return true
-    },
-
-    /**
-     * 是否在主界面
-     * 
-     * @returns boolean
-     */
-    isHome() {
-        return this.getTabs() != null
-    },
-
-    /**
-     * 是否在聊天界面
-     * 
-     * @returns boolean
-     */
-    isChat() {
-        return desc("表情").depth(20).findOnce() !== null
-    },
-
-    /**
-     * 是否是群聊
-     * 
-     * @returns boolean
-     */
-    isGroupChat() {
-        if (this.openChatTools()) {
-            sleep(random(500, 1000))
-            return text("群工具").depth(25).findOnce() !== null
-        }
-        return false
     },
 
     /**
@@ -444,6 +413,173 @@ export default {
                         back()
                     }
                 }
+            }
+        }
+        return false
+    },
+
+    /**
+     * 是否在主界面
+     * 
+     * @returns boolean
+     */
+    isHome() {
+        return this.getTabs() != null
+    },
+
+    /**
+     * 是否在聊天界面
+     * 
+     * @returns boolean
+     */
+    isChat() {
+        return desc("表情").depth(20).findOnce() !== null
+    },
+
+    /**
+     * 是否是群聊
+     * 
+     * @returns boolean
+     */
+    isGroupChat() {
+        if (this.openChatTools()) {
+            sleep(random(500, 1000))
+            return text("群工具").depth(25).findOnce() !== null
+        }
+        return false
+    },
+
+    /**
+     * 是否是公众号
+     * 
+     * @returns boolean
+     */
+    isOfficialAccount() {
+        return desc("公众号").depth(12).exists()
+    },
+
+    /**
+     * 是否是公众号
+     * 
+     * @returns boolean
+     */
+    isServiceAccount() {
+        return desc("服务号").depth(12).exists()
+    },
+
+    /**
+     * 是否是企微
+     * 
+     * @returns boolean
+     */
+    isWorkAccount() {
+        return className("TextView").depth(10).exists()
+    },
+
+    /**
+     * 是否是服务通知
+     * 
+     * @returns boolean
+     */
+    isServiceNotice() {
+        return desc("更多").depth(18).exists()
+    },
+
+    /**
+     * 获取聊天消息
+     * 
+     * @returns [MessageObject]
+     */
+    getMessages() {
+        let messages = [];
+        let list = classNameContains("RecyclerView").depth(17).findOnce()
+        if (list) {
+            let recents = list.children()
+            recents.forEach((item) => {
+                messages.push(new MessageObject(item))
+            });
+            return messages
+        }
+        return null
+    }
+}
+
+const MessageObject = function (UIObject) {
+    this.UIObject = UIObject
+
+    /**
+     * 是否是红包
+     * 
+     * @returns boolean
+     */
+    this.isRedPacket = function () {
+        let redpacket = this.UIObject.find(text("微信红包").depth(25))
+        return redpacket.nonEmpty()
+    }
+
+    /**
+     * 是否是照片
+     * 
+     * @returns boolean
+     */
+    this.isPhoto = function () {
+        let photo = this.UIObject.find(className("ImageView").depth(23))
+        return photo.nonEmpty()
+    }
+
+    /**
+     * 是否是好友发送
+     * 
+     * @returns boolean
+     */
+    this.isFriend = function () {
+        let avatar = this.UIObject.findOne(className("ImageView").depth(21))
+        return avatar && avatar.bounds().left < 20
+    }
+
+    /**
+     * 获取聊天文字
+     * 
+     * @returns [string]
+     */
+    this.getText = function () {
+        let msgs = []
+        let views = this.UIObject.find(className("TextView"))
+        if (views.nonEmpty()) {
+            views.forEach(item => {
+                msgs.push(item.text())
+            })
+        } else {
+            if (this.isPhoto()) {
+                msgs.push("图片")
+            }
+        }
+        return msgs
+    }
+
+    /**
+     * 领取红包
+     * 
+     * @returns string
+     */
+    this.receiveRedPacket = function () {
+        let redpacket = this.UIObject.findOne(text("微信红包").depth(25))
+        if (redpacket) {
+            let isReceived = this.UIObject.findOne(text("已领取").depth(26))
+            if (isReceived) {
+                return true
+            }
+            let rect = redpacket.parent().bounds()
+            click(rect.centerX(), rect.centerY())
+            sleep(random(500, 1000))
+            let open = className("ImageButton").depth(11).findOnce()
+            if (open) {
+                let cover = open.bounds()
+                click(cover.centerX(), cover.centerY())
+                className("ImageView").depth(16).findOne(10000)
+                sleep(random(500, 1000))
+                back()
+                return true
             }
         }
         return false

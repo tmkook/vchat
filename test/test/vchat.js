@@ -10,20 +10,20 @@ export default {
         tester.assertLength(vchat.getTabs(), 4, 'vchat.getTabs')
     },
 
-    testSwitchTabToExplorer() {
-        tester.assertTrue(vchat.switchTab(2), 'vchat.switchTab-2')
+    testSetCurrentTabToExplorer() {
+        tester.assertTrue(vchat.setCurrentTab(2), 'vchat.setCurrentTab-2')
     },
 
     testCurrentTabIsExplorer() {
-        tester.assertEquals(vchat.currentTab(), 2, 'vchat.currentTab')
+        tester.assertEquals(vchat.getCurrentTab(), 2, 'vchat.getCurrentTab')
     },
 
-    testSwitchTabToHome() {
-        tester.assertTrue(vchat.switchTab(0), 'vchat.switchTab-0')
+    testSetCurrentTabToHome() {
+        tester.assertTrue(vchat.setCurrentTab(0), 'vchat.setCurrentTab-0')
     },
 
     testCurrentTabIsHome() {
-        tester.assertEquals(vchat.currentTab(), 0, 'vchat.currentTab')
+        tester.assertEquals(vchat.getCurrentTab(), 0, 'vchat.getCurrentTab')
     },
 
     testIsHome() {
@@ -48,6 +48,22 @@ export default {
 
     testIsGroupChat() {
         tester.assertBoolean(vchat.isGroupChat(), 'vchat.isGroupChat')
+    },
+
+    testIsOfficialAccount() {
+        tester.assertBoolean(vchat.isOfficialAccount(), 'vchat.isOfficialAccount')
+    },
+
+    testIsServiceAccount() {
+        tester.assertBoolean(vchat.isServiceAccount(), 'vchat.isServiceAccount')
+    },
+
+    testIsWorkAccount() {
+        tester.assertBoolean(vchat.isWorkAccount(), 'vchat.isWorkAccount')
+    },
+
+    testIsServiceNotice() {
+        tester.assertBoolean(vchat.isServiceNotice(), 'vchat.isServiceNotice')
     },
 
     testSwitchToVoiceInput() {
@@ -104,6 +120,18 @@ export default {
 
     openUserSession() {
         tester.assertTrue(vchat.openUserSession('文件传输助手'), 'vchat.openUserSession')
+    },
+
+    getMessages() {
+        let messages = vchat.getMessages()
+        for (let i in messages) {
+            let item = messages[i]
+            tester.assertBoolean(item.isRedPacket(), "message.isRedPacket")
+            tester.assertBoolean(item.receiveRedPacket(), "message.receiveRedPacket")
+            tester.assertBoolean(item.isPhoto(), "message.isPhoto")
+            tester.assertBoolean(item.isFriend(), "message.isFriend")
+            tester.assertArray(item.getText(), "message.getText")
+        }
     },
 
     testFinish() {

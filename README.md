@@ -20,6 +20,12 @@
 npx giget@latest gh:tmkook/vchat-starter-kit vchat
 ```
 
+或者
+
+```
+gh repo clone tmkook/vchat-starter-kit
+```
+
 # 开发演示
 
 在 `main.js` 中编写自动化逻辑，执行 `npm run build` 后获得最终执行代码 `dist/main.js` 文件
@@ -40,8 +46,8 @@ vchat.onMessage((notice) => {
 - `finish()` 结束任务并回到主屏，取消常亮，返回是否成功
 - `openApp()` 启动并保持屏幕常亮 10 分钟
 - `getTabs()` 获取底部 Tab 集合，未找到返回 `null`
-- `currentTab()` 获取当前选中 Tab 下标（0-3），非主页返回 `-1`
-- `switchTab(index)` 切换到底部指定 Tab，成功返回 `true`
+- `getCurrentTab()` 获取当前选中 Tab 下标（0-3），非主页返回 `-1`
+- `setCurrentTab(index)` 切换到底部指定 Tab，成功返回 `true`
 - `hasUnreadSession()` 返回未读会话角标数量
 - `openTopSession()` 打开会话列表顶部第一个会话
 - `openUserSession(nickname)` 搜索并打开指定昵称会话，找不到则返回 `false`
@@ -52,28 +58,28 @@ vchat.onMessage((notice) => {
 - `scrollToFirstSession()` 将会话列表滚动到顶部
 - `scrollToNextUnreadSession()` 通过点击底部 Tab 将下一个未读会话置顶
 - `openChatTools()` 展开聊天窗口的 “更多功能” 面板
-- `isHome()` 是否在主页
-- `isChat()` 是否在聊天界面
-- `isGroupChat()` 当前会话是否为群聊
 - `switchToTextInput()` 切换为文字输入模式
 - `switchToVoiceInput()` 切换为语音输入模式
 - `sendText(text)` 在聊天界面发送文本消息
 - `sendCustomEmoji(name)` 发送自定义表情（按名称匹配）
 - `sendPhoto([index], source)` 通过相册发送图片，如索引 [0,1] 为相册第一张和第二张，`source` 为是否原图
 - `backToHome()` 最多退回 20 步直至主页
+- `isHome()` 是否在主页
+- `isChat()` 是否在聊天界面
+- `isGroupChat()` 当前会话是否为群聊
+- `isOfficialAccount()` 当前会话是否是公众号
+- `isServiceAccount()` 当前会话是否是服务号
+- `isWorkAccount()` 当前会话是否是企微号
+- `isServiceNotice()` 当前会话是否是服务通知
+- `getMessages()` 获取聊天消息，返回数组 [MessageObject]
+- `MessageObject.isRedPacket()` 消息是否是红包
+- `MessageObject.receiveRedPacket()` 领取红包
+- `MessageObject.isPhoto()` 消息是否是照片
+- `MessageObject.isFriend()` 是否是好友发送(true=对方，false=自己或系统)
+- `MessageObject.getText()` 获取聊天详情文字返回数组 [string]
 
-# 未完成API
-
-- `getLastMessage()` 获取最后一次对话
-- `getRecentMessage()` 获得近期对话
-- `getRedPacket()` 领红包
-- `getTransfer()` 领转账
-- `sendRedPacket()` 发送红包
-- `sendTransfer()` 发转账
-- `sendMoment()` 发朋友圈
-- `getMoments()` 读取朋友圈
-- `getServiceMessage()` 读取服务通知消息
-- `acceptFriendRequest()` 通过加好友请求
+# 如何贡献
+欢迎贡献代码，提交的代码必须在 `test` 中编写单元测试。编写完后执行 `npm run test` 获得最终执行 `dist/main.js` 文件。默认测试所有方法，你可以在文件末尾修改你需要测试的方法 `runTestMethod(obj,method)` 后执行单个功能的测试。
 
 # 开发交流群
 
