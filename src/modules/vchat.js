@@ -176,16 +176,24 @@ export default {
     },
 
     /**
+     * 是否开启了免打扰
+     * 
+     * @returns boolean
+     */
+    getDoNotDisturb() {
+        return descContains("消息免打扰").depth(12).findOnce() != null
+    },
+
+    /**
      * 开启勿扰模式
      * 
      * @param {boolean} enable
      * @returns boolean
      */
-    doNotDisturb(enable) {
+    setDoNotDisturb(enable) {
         desc("聊天信息").depth(18).click()
         sleep(random(500, 1000))
-        const isEnable = descContains("消息免打扰").depth(12).findOnce() != null
-        if (isEnable == enable) {
+        if (this.getDoNotDisturb() == enable) {
             back()
             return true
         }

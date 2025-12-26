@@ -90,10 +90,10 @@ export default {
         tester.assertTrue(vchat.sendPhoto([0]), 'vchat.sendPhoto')
     },
 
-    testDoNotDisturb() {
-        tester.assertTrue(vchat.doNotDisturb(true), 'vchat.doNotDisturb-true')
+    testSetDoNotDisturb() {
+        tester.assertTrue(vchat.setDoNotDisturb(true), 'vchat.setDoNotDisturb-true')
         sleep(1000)
-        tester.assertTrue(vchat.doNotDisturb(false), 'vchat.doNotDisturb-false')
+        tester.assertTrue(vchat.setDoNotDisturb(false), 'vchat.setDoNotDisturb-false')
     },
 
     testLeaveGroup() {

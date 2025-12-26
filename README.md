@@ -55,7 +55,8 @@ vchat.onMessage((notice) => {
 | openUnreadSession() | — | boolean | 打开未读消息(仅限一屏) |
 | openTopSession() | — | boolean | 打开列表顶部第一个会话 |
 | openUserSession(nickname) | string | boolean | 搜索并打开指定昵称会话 |
-| doNotDisturb(enable) | boolean | boolean | 在会话信息里开/关消息免打扰 |
+| getDoNotDisturb() | - | boolean | 是否开启了息免打扰 |
+| setDoNotDisturb(enable) | boolean | boolean | 开/关消息免打扰 |
 | topSession(enable) | boolean | boolean | 取消或置顶该聊天 |
 | delSession() | — | boolean | 长按列表第一个会话并删除 |
 | leaveGroup() | — | boolean | 在群聊中退出群 |
