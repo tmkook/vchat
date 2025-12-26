@@ -117,22 +117,18 @@ export default {
     /**
      * 获取未读会话角标
      * 
-     * @returns number
+     * @returns array
      */
     getUnreadSession() {
         let elements = []
         const num = className("TextView").drawingOrder(2).depth(20).find()
-        const dot = className("ImageView").drawingOrder(2).depth(20).find()
-        if (num.nonEmpty()) {
-            for (let i in num) {
-                elements.push(num[i])
-            }
-        }
-        if (dot.nonEmpty()) {
-            for (let i in dot) {
-                elements.push(dot[i])
-            }
-        }
+        const dot = className("ImageView").drawingOrder(3).depth(20).find()
+        num.forEach(item => {
+            elements.push(item)
+        })
+        dot.forEach(item => {
+            elements.push(item)
+        })
         return elements
     },
 
@@ -147,6 +143,7 @@ export default {
             let rand = random(10, 20)
             let rect = unread[0].bounds()
             click(rect.centerX() + rand, rect.centerY() + rand)
+            return true
         }
         return false
     },
