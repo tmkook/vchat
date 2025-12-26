@@ -52,6 +52,7 @@ vchat.onMessage((notice) => {
 | getCurrentTab() | — | number | 获取当前 Tab 下标（0-3）失败返回 -1 |
 | setCurrentTab(index) | number | boolean | 切换到指定 Tab |
 | hasUnreadSession() | — | number | 返回未读会话角标数量 |
+| openUnreadSession() | — | boolean | 打开未读消息(仅限一屏) |
 | openTopSession() | — | boolean | 打开列表顶部第一个会话 |
 | openUserSession(nickname) | string | boolean | 搜索并打开指定昵称会话 |
 | doNotDisturb(enable) | boolean | boolean | 在会话信息里开/关消息免打扰 |

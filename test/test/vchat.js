@@ -34,6 +34,10 @@ export default {
         tester.assertTrue(vchat.hasUnreadSession() >= 0, 'vchat.hasUnreadSession')
     },
 
+    testOpenUnreadSession() {
+        tester.assertTrue(vchat.openUnreadSession(), 'vchat.openUnreadSession')
+    },
+
     testOpenTopSession() {
         tester.assertTrue(vchat.openTopSession(), 'vchat.openTopSession')
     },

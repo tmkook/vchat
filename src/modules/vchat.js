@@ -120,8 +120,23 @@ export default {
      * @returns number
      */
     hasUnreadSession() {
-        const dot = className("ImageView").drawingOrder(2).depth(20).find()
+        const dot = className("TextView").drawingOrder(2).depth(20).find()
         return dot.length
+    },
+
+    /**
+     * 打开未读会话
+     * 
+     * @returns boolean
+     */
+    openUnreadSession() {
+        const dot = className("TextView").drawingOrder(2).depth(20).findOnce()
+        if (dot) {
+            let rand = random(10, 20)
+            let rect = dot.bounds()
+            click(rect.centerX() + rand, rect.centerY() + rand)
+        }
+        return false
     },
 
     /**
