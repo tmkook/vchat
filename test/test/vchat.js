@@ -30,8 +30,8 @@ export default {
         tester.assertTrue(vchat.isHome(), 'vchat.isHome')
     },
 
-    testHasUnreadSession() {
-        tester.assertTrue(vchat.hasUnreadSession() >= 0, 'vchat.hasUnreadSession')
+    testGetUnreadSession() {
+        tester.assertArray(vchat.getUnreadSession(), 'vchat.getUnreadSession')
     },
 
     testOpenUnreadSession() {

@@ -115,13 +115,25 @@ export default {
     },
 
     /**
-     * 是否存在未读会话
+     * 获取未读会话角标
      * 
      * @returns number
      */
-    hasUnreadSession() {
-        const dot = className("TextView").drawingOrder(2).depth(20).find()
-        return dot.length
+    getUnreadSession() {
+        let elements = []
+        const num = className("TextView").drawingOrder(2).depth(20).find()
+        const dot = className("ImageView").drawingOrder(2).depth(20).find()
+        if (num.nonEmpty()) {
+            for (let i in num) {
+                elements.push(num[i])
+            }
+        }
+        if (dot.nonEmpty()) {
+            for (let i in dot) {
+                elements.push(dot[i])
+            }
+        }
+        return elements
     },
 
     /**
@@ -130,11 +142,14 @@ export default {
      * @returns boolean
      */
     openUnreadSession() {
-        const dot = className("TextView").drawingOrder(2).depth(20).findOnce()
-        if (dot) {
-            let rand = random(10, 20)
-            let rect = dot.bounds()
-            click(rect.centerX() + rand, rect.centerY() + rand)
+        if(this.hasUnreadSession()){
+            const num = className("TextView").drawingOrder(2).depth(20).find()
+            const dot = className("ImageView").drawingOrder(2).depth(20).find()
+            if (dot) {
+                let rand = random(10, 20)
+                let rect = dot.bounds()
+                click(rect.centerX() + rand, rect.centerY() + rand)
+            }
         }
         return false
     },
