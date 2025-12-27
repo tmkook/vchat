@@ -190,7 +190,7 @@ export default {
      * @returns boolean
      */
     getDoNotDisturb() {
-        return descContains("消息免打扰").depth(12).findOnce() != null
+        return className("ImageView").depth(16).exists();
     },
 
     /**
@@ -465,7 +465,7 @@ export default {
      * @returns boolean
      */
     isChat() {
-        return desc("表情").depth(20).findOnce() !== null
+        return desc("表情").depth(20).exists()
     },
 
     /**
@@ -474,11 +474,7 @@ export default {
      * @returns boolean
      */
     isGroupChat() {
-        if (this.openChatTools()) {
-            sleep(random(500, 1000))
-            return text("群工具").depth(25).findOnce() !== null
-        }
-        return false
+        return className("TextView").depth(21).exists()
     },
 
     /**
