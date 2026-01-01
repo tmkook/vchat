@@ -90,3 +90,7 @@ vchat.onMessage((notice) => {
 # 开发交流群
 
 https://t.me/+OY7oyZrzyMQ5ZDRh
+
+# 机器人体验
+
+https://hamibot.com/marketplace/BBrx8
