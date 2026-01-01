@@ -200,20 +200,24 @@ export default {
      * @returns boolean
      */
     setDoNotDisturb(enable) {
-        desc("聊天信息").depth(18).click()
-        sleep(random(500, 1000))
-        if (this.getDoNotDisturb() == enable) {
-            back()
-            return true
+        let status = this.getDoNotDisturb()
+        if (status != enable) {
+            let info = desc("聊天信息").depth(18).findOnce()
+            if (info) {
+                info.click()
+                sleep(random(500, 1000))
+                const pos = text("查找聊天记录").depth(20).findOnce()
+                if (pos) {
+                    const rect = pos.bounds()
+                    click(rect.centerX(), rect.centerY() + random(150, 180))
+                    sleep(random(500, 1000))
+                    back()
+                    return true
+                }
+                sleep(random(500, 1000))
+                back()
+            }
         }
-        const pos = text("查找聊天记录").depth(20).findOnce()
-        if (pos) {
-            const rect = pos.bounds()
-            click(rect.centerX(), rect.centerY() + random(150, 180))
-            back()
-            return true
-        }
-        back()
         return false
     },
 
@@ -547,7 +551,6 @@ const MessageObject = function (UIObject) {
             views.forEach(item => {
                 msgs.push(item.text())
             })
-        } else {
             if (this.isPhoto()) {
                 msgs.push("图片")
             }
@@ -561,7 +564,7 @@ const MessageObject = function (UIObject) {
      * @returns boolean
      */
     this.isPhoto = function () {
-        let photo = this.UIObject.find(className("ImageView").depth(23))
+        let photo = this.UIObject.find(descContains("图片"))
         return photo.nonEmpty()
     }
 
@@ -581,7 +584,7 @@ const MessageObject = function (UIObject) {
      * @returns boolean
      */
     this.isRedPacket = function () {
-        let redpacket = this.UIObject.find(text("微信红包").depth(25))
+        let redpacket = this.UIObject.find(textContains("红包").depth(25))
         return redpacket.nonEmpty()
     }
 
@@ -591,23 +594,25 @@ const MessageObject = function (UIObject) {
      * @returns string
      */
     this.getRedPacket = function () {
-        let redpacket = this.UIObject.findOne(text("微信红包").depth(25))
+        let redpacket = this.UIObject.findOne(textContains("红包").depth(25))
         if (redpacket) {
-            let isReceived = this.UIObject.findOne(text("已领取").depth(26))
+            let isReceived = this.UIObject.findOne(textContains("已").depth(26))
             if (isReceived) {
                 return true
             }
-            let rect = redpacket.parent().bounds()
-            click(rect.centerX(), rect.centerY())
-            sleep(random(500, 1000))
-            let open = className("ImageButton").depth(11).findOnce()
-            if (open) {
-                let cover = open.bounds()
-                click(cover.centerX(), cover.centerY())
-                className("ImageView").depth(16).findOne(10000)
-                sleep(random(500, 1000))
+            let box = this.UIObject.findOne(className("FrameLayout").depth(22))
+            if (box) {
+                box.click()
+                let open = className("ImageButton").depth(11).findOne(10000)
+                if (open) {
+                    let cover = open.bounds()
+                    click(cover.centerX(), cover.centerY())
+                    className("ImageView").depth(16).findOne(10000)
+                    sleep(random(500, 1000))
+                    back()
+                    return true
+                }
                 back()
-                return true
             }
         }
         return false
