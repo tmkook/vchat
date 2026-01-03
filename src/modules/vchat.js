@@ -392,8 +392,6 @@ export default {
      * @returns boolean
      */
     sendText(content) {
-        this.switchToTextInput()
-        sleep(random(500, 1000))
         setText(content)
         sleep(random(500, 1000))
         let btn = text("发送").depth(21).findOnce()
@@ -483,10 +481,17 @@ export default {
                 let rect = menu.bounds()
                 click(rect.centerX(), rect.centerY())
                 sleep(random(500, 1000))
+                return true
             }
         }
+        return false
     },
 
+    /**
+     * 接收聊天窗口的好友请求(删的好友)
+     * 
+     * @returns boolean
+     */
     receiveOldFriendRequest() {
         let has = text("对方还不是你的朋友").depth(15).findOnce()
         if (has) {
@@ -641,7 +646,7 @@ const MessageObject = function (UIObject) {
     }
 
     /**
-     * 获取昵称
+     * 获取时间
      * 
      * @returns string
      */

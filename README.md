@@ -34,7 +34,7 @@ gh repo clone tmkook/vchat-starter-kit
 import { vchat } from 'vchat'
 vchat.onMessage((notice) => {
     vchat.openApp()
-    vchat.openTopSession()
+    vchat.openUnreadSession()
     vchat.sendText("Hello world")
     vchat.finish()
 })
@@ -43,45 +43,94 @@ vchat.onMessage((notice) => {
 
 # API
 
+基于无障碍限制，以下所有操作只在可见的UI控件范围内有效。
+
+## 基础操作
+
 | 方法 | 参数 | 返回 | 说明 |
 | --- | --- | --- | --- |
-| onMessage(callback) | Function(Notification) | — | 监听新消息通知 |
-| finish() | — | boolean | 结束任务并回到主屏幕 |
-| openApp() | — | boolean | 打开APP |
-| getTabs() | — | Array(number) | 获取底部 Tab 集合，未找到返回 `null` |
-| getCurrentTab() | — | number | 获取当前 Tab 下标（0-3）失败返回 -1 |
-| setCurrentTab(index) | number | boolean | 切换到指定 Tab |
+| onMessage(callback) | Function(Notification) | — | 监听新消息通知（需要打开通知权限） |
+| openApp() | — | boolean | 打开APP并进入主界面 |
+| backToHome() | — | boolean | 返回到主界面，最多尝试 20 步 |
+| finish() | — | boolean | 任务完成返回桌面息屏等待 |
+
+## Tab 操作
+
+| 方法 | 参数 | 返回 | 说明 |
+| --- | --- | --- | --- |
+| getTabs() | — | UICollect \| null | 获取底部 Tabs 集合，未找到返回 `null` |
+| getCurrentTab() | — | number | 获取当前 Tab 的索引值（0-3），不在主页返回 -1 |
+| setCurrentTab(index) | number | boolean | 切换到指定 Tab 页 |
+
+## 会话操作
+
+| 方法 | 参数 | 返回 | 说明 |
+| --- | --- | --- | --- |
 | getUnreadSession() | — | Array(UIObject) | 获取未读会话角标 |
-| openUnreadSession() | — | boolean | 打开未读消息(仅限一屏) |
-| openTopSession() | — | boolean | 打开列表顶部第一个会话 |
-| openUserSession(nickname) | string | boolean | 搜索并打开指定昵称会话 |
-| getDoNotDisturb() | - | boolean | 是否开启了息免打扰 |
-| setDoNotDisturb(enable) | boolean | boolean | 开/关消息免打扰 |
-| topSession(enable) | boolean | boolean | 取消或置顶该聊天 |
-| delSession() | — | boolean | 长按列表第一个会话并删除 |
-| leaveGroup() | — | boolean | 在群聊中退出群 |
-| scrollToFirstSession() | — | boolean | 将会话列表滚动到顶部(双击顶部) |
-| scrollToNextUnreadSession() | — | boolean | 未读会话置顶(双击第一个Tab) |
-| openChatTools() | — | boolean | 展开聊天窗口的更多功能 |
-| switchToTextInput() | — | boolean | 切换为文字输入模式 |
-| switchToVoiceInput() | — | boolean | 切换为语音输入模式 |
-| sendText(text) | string | boolean | 在聊天界面发送文本消息 |
+| openUnreadSession() | — | boolean | 打开一个未读会话 |
+| openTopSession() | — | boolean | 打开屏幕顶部第一个会话 |
+| openUserSession(nickname) | string | boolean | 打开指定用户会话（通过搜索） |
+| topSession(enable) | boolean | boolean | 置顶/取消置顶会话 |
+| delSession() | — | boolean | 删除会话 |
+| scrollToFirstSession() | — | boolean | 将会话列表滚动到顶部（双击顶部） |
+| scrollToNextUnreadSession() | — | boolean | 将下一个未读会话滚动到顶部（双击第一个Tab） |
+
+## 聊天界面操作
+
+| 方法 | 参数 | 返回 | 说明 |
+| --- | --- | --- | --- |
+| openChatTools() | — | boolean | 打开聊天窗口工具 |
+| switchToTextInput() | — | boolean | 切换到文字输入 |
+| switchToVoiceInput() | — | boolean | 切换到语音输入 |
+| scrollToUnreadMessage() | — | boolean | 聊天中滚动到第一个未读消息 |
+| sendText(content) | string | boolean | 发送文字消息 |
 | sendCustomEmoji(name) | string | boolean | 发送自定义表情（按名称匹配） |
-| sendPhoto(index source) | Array(number), boolean | boolean | 通过相册发送图片，索引如 [0,1] 表示第一、第二张；source 为是否原图 |
-| backToHome() | — | boolean | 最多退回 20 步直至主页 |
-| isHome() | — | boolean | 是否在主页 |
+| sendPhoto(index, source) | Array(number), boolean | boolean | 发送图片，index 为相册中的图片索引数组（如 [0,1]），source 为是否发送原图 |
+| leaveGroup() | — | boolean | 退出群聊 |
+| getDoNotDisturb() | — | boolean | 是否开启了免打扰 |
+| setDoNotDisturb(enable) | boolean | boolean | 开启/关闭勿扰模式 |
+
+## 好友请求
+
+| 方法 | 参数 | 返回 | 说明 |
+| --- | --- | --- | --- |
+| receiveNewFriendRequest() | — | boolean | 接收新的好友请求 |
+| receiveOldFriendRequest() | — | boolean | 接收聊天窗口的好友请求（已删除的好友） |
+
+
+## 状态判断
+
+| 方法 | 参数 | 返回 | 说明 |
+| --- | --- | --- | --- |
+| isHome() | — | boolean | 是否在主界面 |
 | isChat() | — | boolean | 是否在聊天界面 |
-| isGroupChat() | — | boolean | 当前会话是否为群聊 |
-| isOfficialAccount() | — | boolean | 当前会话是否是公众号 |
-| isServiceAccount() | — | boolean | 当前会话是否是服务号 |
-| isWorkAccount() | — | boolean | 当前会话是否是企微号 |
-| isServiceNotice() | — | boolean | 当前会话是否是服务通知 |
-| getMessages() | — | Array(message) | 获取聊天消息 |
-| message.getText() | — | Array(string) | 获取聊天详情 |
-| message.isPhoto() | — | boolean | 消息是否是照片 |
-| message.isFriend() | — | boolean | 发送方(true=好友，false=自己或系统) |
-| message.isRedPacket() | — | boolean | 消息是否是红包 |
-| message.getRedPacket() | — | boolean | 领取红包 |
+| isGroupChat() | — | boolean | 是否是群聊 |
+| isOfficialAccount() | — | boolean | 是否是公众号 |
+| isServiceAccount() | — | boolean | 是否是服务号 |
+| isWorkAccount() | — | boolean | 是否是企微 |
+| isServiceNotice() | — | boolean | 是否是服务通知 |
+
+## 消息获取
+
+| 方法 | 参数 | 返回 | 说明 |
+| --- | --- | --- | --- |
+| getMessages() | — | Array(MessageObject) | null | 获取聊天消息列表，失败返回 `null` |
+
+## MessageObject 对象方法
+
+| 方法 | 参数 | 返回 | 说明 |
+| --- | --- | --- | --- |
+| getText() | — | Array(string) | 获取所有文字内容 |
+| getMessage() | — | string | 获取聊天文字消息 |
+| getUser() | — | string | 获取发送者昵称 |
+| getTime() | — | string | 获取消息时间 |
+| voiceToText() | — | boolean | 将语音消息转换为文字 |
+| getVoiceText() | — | string | 获取语音转文字后的内容 |
+| isVoice() | — | boolean | 是否是语音消息 |
+| isPhoto() | — | boolean | 是否是照片 |
+| isFriend() | — | boolean | 是否是好友发送（true=好友，false=自己或系统） |
+| isRedPacket() | — | boolean | 是否是红包 |
+| getRedPacket() | — | boolean | 领取红包，已领取返回 true |
 
 
 # 如何贡献
