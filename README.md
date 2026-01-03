@@ -1,4 +1,4 @@
-一个基于安卓无障碍的自动聊天测试框架，无需ROOT只要不到 10 行代码即可实现自动消息回复。本项目运行于 `Hamibot` 在开始前你需要了解如何安装并使用 `Hamibot` 相关文档可见 [Hamibot 文档](https://docs.hamibot.com/)
+一个基于安卓无障碍的自动聊天测试框架，无需 ROOT 只要不到 10 行代码即可实现自动消息回复。本项目运行于 `Autojs` 及相关衍生品如`Hamibot` 在开始前你需要了解如何安装并使用 `Hamibot` 相关文档可见 [Hamibot 文档](https://docs.hamibot.com/)
 
 本项目仅供学习自动化测试使用，请勿用于商业及违法违规场景，由此引起的一切问题与本项目无关。
 
@@ -85,7 +85,7 @@ vchat.onMessage((notice) => {
 
 
 # 如何贡献
-欢迎贡献代码，提交的代码必须在 `test` 中编写单元测试。编写完后执行 `npm run test` 获得最终执行 `dist/main.js` 文件。默认测试所有方法，你可以在文件末尾修改你需要测试的方法 `runTestMethod(obj,method)` 后执行单个功能的测试。
+欢迎贡献代码，提交的代码须在 `test` 中编写单元测试。编写完后执行 `npm run test` 获得最终执行 `dist/main.js` 文件。默认测试所有方法，你可以在文件末尾修改你需要测试的方法 `runTestMethod(obj,method)` 后执行单个功能的测试。
 
 # 开发交流群
 

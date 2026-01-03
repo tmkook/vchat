@@ -14,7 +14,7 @@ export default {
     package: 'com.tencent.mm',
 
     /**
-     * 收到新消息
+     * 收到新消息(需要打开通知)
      * @param {Function(notification)} callback
      */
     onMessage(callback) {
@@ -44,7 +44,19 @@ export default {
     },
 
     /**
-     * 任务完成进入息屏等待状态
+     * 打开APP并进入主界面
+     * 
+     * @returns boolean
+     */
+    openApp() {
+        launch(this.package)
+        waitForPackage(this.package)
+        device.keepScreenDim(600000)
+        return this.backToHome()
+    },
+
+    /**
+     * 任务完成返回桌面息屏等待
      * 
      * @returns boolean
      */
@@ -58,19 +70,7 @@ export default {
     },
 
     /**
-     * 打开APP
-     * 
-     * @returns boolean
-     */
-    openApp() {
-        launch(this.package)
-        waitForPackage(this.package)
-        device.keepScreenDim(600000)
-        return this.backToHome()
-    },
-
-    /**
-     * 获取底部 tabs
+     * 获取底部 Tabs
      * 
      * @returns UICollect | null
      */
@@ -81,8 +81,7 @@ export default {
 
     /**
      * 获取当前 Tab 的索引值
-     * 如果在主页则返回0到3的数字
-     * 如果不在主页则返回-1
+     * 如果在主页则返回0到3的数字不在主页则返回-1
      * 
      * @returns number
      */
@@ -133,7 +132,7 @@ export default {
     },
 
     /**
-     * 打开未读会话
+     * 打开一个未读会话
      * 
      * @returns boolean
      */
@@ -327,6 +326,20 @@ export default {
     },
 
     /**
+     * 聊天中滚动到第一个未读消息
+     * 
+     * @returns boolean
+     */
+    scrollToUnreadMessage() {
+        let more = className("LinearLayout").depth(14).findOnce()
+        if (more) {
+            more.click()
+            return true
+        }
+        return false
+    },
+
+    /**
      * 打开聊天窗口工具
      * 
      * @returns boolean
@@ -400,17 +413,21 @@ export default {
         if (btn) {
             btn.click()
             sleep(random(500, 1000))
-            let custom = desc("自定义表情").depth(22).findOnce()
-            if (custom) {
-                custom.parent().click()
+            let search = desc("搜索表情").depth(22).findOnce()
+            if (search) {
+                search.parent().click()
                 sleep(random(500, 1000))
-                let emoji = desc(name).depth(24).findOnce()
-                if (emoji) {
-                    emoji.parent().click()
+                setText(name)
+                sleep(random(2000, 5000))
+                let emojis = classNameContains("View").depth(15).find()
+                if (emojis.length > 5) {
+                    let rect = emojis[random(5, 10)].bounds()
+                    click(rect.centerX(), rect.centerY())
                     return true
                 }
             }
         }
+        back()
         return false
     },
 
@@ -453,6 +470,17 @@ export default {
         }
         return false
     },
+
+    /**
+     * 接收新的好友请求
+     * 
+     * @returns boolean
+     */
+    receiveNewFriendRequest() {
+
+    },
+
+
 
     /**
      * 是否在主界面
@@ -540,7 +568,7 @@ const MessageObject = function (UIObject) {
     this.UIObject = UIObject
 
     /**
-     * 获取聊天文字
+     * 获取所有文字
      * 
      * @returns [string]
      */
@@ -556,6 +584,100 @@ const MessageObject = function (UIObject) {
             }
         }
         return msgs
+    }
+
+    /**
+     * 获取聊天文字消息
+     * 
+     * @returns [string]
+     */
+    this.getMessage = function () {
+        let msg1 = this.UIObject.findOne(className("TextView").depth(22))
+        let msg2 = this.UIObject.findOne(className("TextView").depth(23))
+        if (msg1) {
+            return msg1.text()
+        }
+        if (msg2) {
+            return msg2.text()
+        }
+        return ""
+    }
+
+    /**
+     * 获取昵称
+     * 
+     * @returns string
+     */
+    this.getUser = function () {
+        let avatar = this.UIObject.findOne(className("ImageView").depth(21)) || this.UIObject.findOne(className("ImageView").depth(22))
+        if (avatar) {
+            let user = avatar.desc()
+            return user.replace("头像", "")
+        }
+        return ""
+    }
+
+    /**
+     * 获取昵称
+     * 
+     * @returns string
+     */
+    this.getTime = function () {
+        let dt = this.UIObject.findOne(className("TextView").depth(19))
+        if (dt) {
+            return dt.text()
+        }
+        return ""
+    }
+
+    /**
+     * 是否是语音消息
+     * 
+     * @returns boolean
+     */
+    this.voiceToText = function () {
+        let toText = this.UIObject.findOne(className("RelativeLayout").depth(21))
+        if (toText) {
+            toText.click()
+            sleep(random(500, 1000))
+            return true
+        }
+        return false
+    }
+
+    /**
+     * 是否是语音消息
+     * 
+     * @returns string
+     */
+    this.getVoiceText = function () {
+        let voiceText = this.UIObject.findOne(className("RelativeLayout").depth(22))
+        if (voiceText) {
+            let rectText = voiceText.bounds()
+            longClick(rectText.centerX(), rectText.centerY())
+            sleep(random(500, 1000))
+            click(rectText.left - 20, rectText.top - 50)
+            sleep(random(500, 1000))
+            let edit = className("EditText").findOnce()
+            if (edit) {
+                edit.click()
+                edit.paste()
+                sleep(random(500, 1000))
+                let edit2 = className("EditText").findOnce()
+                return edit2.text()
+            }
+        }
+        return ""
+    }
+
+    /**
+     * 是否是语音消息
+     * 
+     * @returns boolean
+     */
+    this.isVoice = function () {
+        let voice = this.UIObject.find(descContains("语音"))
+        return voice.nonEmpty()
     }
 
     /**
