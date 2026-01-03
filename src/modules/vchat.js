@@ -477,10 +477,33 @@ export default {
      * @returns boolean
      */
     receiveNewFriendRequest() {
-
+        if (this.setCurrentTab(1)) {
+            let menu = text("新的朋友").depth(23).findOnce()
+            if (menu) {
+                let rect = menu.bounds()
+                click(rect.centerX(), rect.centerY())
+                sleep(random(500, 1000))
+            }
+        }
     },
 
-
+    receiveOldFriendRequest() {
+        let has = text("对方还不是你的朋友").depth(15).findOnce()
+        if (has) {
+            let rect = has.bounds()
+            click(rect.centerX(), rect.centerY())
+            sleep(random(500, 1000))
+            let contact = text("添加到通讯录").findOnce()
+            if (contact) {
+                let rect2 = contact.bounds()
+                click(rect2.centerX(), rect2.centerY())
+                sleep(random(500, 1000))
+                text("完成").click()
+                return true
+            }
+        }
+        return false
+    },
 
     /**
      * 是否在主界面
