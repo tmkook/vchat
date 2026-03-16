@@ -435,8 +435,8 @@ export default {
             let isopen = desc("精选表情").findOne(5000)
             if (isopen) {
                 setText(name)
-                className("ImageView").depth(14).findOne(20000)
-                let emojis = className("ImageView").depth(14).find();
+                className("ImageView").depth(15).findOne(20000)
+                let emojis = className("ImageView").depth(15).find();
                 if (emojis.nonEmpty()) {
                     if (!index) {
                         index = 0
